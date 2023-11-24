@@ -17,15 +17,21 @@ enum Month {
 // interface-like class
 class Publication {
   String name;
-  Month? date;
+  String? editorial;
+  int? tome;
   String? category;
-  int? edition;
+  bool released;
+  Month? date;
+  double? price;
 
   // Constructor
   Publication({
     required this.name,
-    this.date,
+    this.editorial,
+    this.tome,
     this.category,
-    this.edition,
+    required this.released,
+    this.date,
+    this.price,
   });
 }
