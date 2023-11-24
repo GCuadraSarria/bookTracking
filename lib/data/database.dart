@@ -11,8 +11,8 @@ class BookTrackingDataBase {
   // run this method the very first time we open the app
   void createInitialData() {
     allPublications = [
-      Publication(name: 'Miguel Aladrén Castillo'),
-      Publication(name: 'Es un niño bonito'),
+      Publication(name: 'Miguel Aladrén Castillo', released: true),
+      Publication(name: 'Es un niño bonito', released: true),
     ];
   }
 
