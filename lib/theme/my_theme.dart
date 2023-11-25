@@ -10,7 +10,7 @@ ColorScheme myDarkTheme() {
     onPrimary: Colors.white,
     onSecondary: Colors.black,
     onBackground: Colors.white,
-    onSurface: Colors.white,
+    onSurface: Color.fromARGB(150, 255, 255, 255),
     onError: Colors.white,
   );
 }
