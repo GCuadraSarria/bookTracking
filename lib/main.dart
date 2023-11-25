@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
         colorScheme: myDarkTheme(),
         useMaterial3: true,
       ),
-      home: const MyHomePage(),
+      home: const SafeArea(child: MyHomePage()),
     );
   }
 }

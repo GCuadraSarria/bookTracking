@@ -1,3 +1,4 @@
+import 'package:book_tracking/form/create_new_book.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import '../data/database.dart';
@@ -32,10 +33,12 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.background,
       body: Center(
           child: const [
         WishListPage(),
-        HistoricalPage(),
+        CreateNewBook()
+        // HistoricalPage(),
       ][_selectedIndex]),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Theme.of(context).colorScheme.primary,
