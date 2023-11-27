@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 
 class MyBookTile extends StatelessWidget {
   final String name;
@@ -26,43 +25,58 @@ class MyBookTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Slidable(
-      endActionPane: ActionPane(
-        motion: const StretchMotion(),
-        children: [
-          // settings option
-          SlidableAction(
-            onPressed: settingsTapped,
-            backgroundColor: Colors.grey.shade800,
-            icon: Icons.settings,
-            borderRadius: BorderRadius.circular(12.0),
-          ),
-          // owned option
-          SlidableAction(
-            onPressed: shoppedTapped,
-            backgroundColor: Colors.green,
-            icon: Icons.shopping_cart,
-            borderRadius: BorderRadius.circular(12.0),
-          )
-        ],
-      ),
-      child: Container(
-        width: MediaQuery.of(context).size.width,
-        padding: const EdgeInsets.all(24.0),
-        decoration: BoxDecoration(
-          color: owned ? Colors.pink : Colors.amber,
-          borderRadius: BorderRadius.circular(8.0),
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4.0),
+      child: Dismissible(
+        key: UniqueKey(),
+        direction: DismissDirection.horizontal,
+
+        /// swipe ( --> ) shopped
+        background: Container(
+          color: Colors.green,
+          alignment: Alignment.centerLeft,
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          child: const Icon(Icons.shopping_cart, color: Colors.white),
         ),
-        child: SingleChildScrollView(
-          child: Column(
+
+        /// swipe ( <-- ) edit
+        secondaryBackground: Container(
+          color: Colors.grey.shade700,
+          alignment: Alignment.centerRight,
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          child: const Icon(Icons.edit_document, color: Colors.white),
+        ),
+        onDismissed: (direction) {
+          // Implement your action based on the swipe direction
+          if (direction == DismissDirection.endToStart) {
+            // Swiped from right to left (edit)
+            print('Edited');
+          } else if (direction == DismissDirection.startToEnd) {
+            // Swiped from left to right (buy)
+            print('Bought');
+          }
+        },
+        child: ListTile(
+          tileColor: Theme.of(context).colorScheme.surface,
+          title: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(name),
-              if (collection != null && collection!.isNotEmpty)
-                Text(collection!),
-              if (tome != null && tome!.isNotEmpty) Text(tome!),
-              if (editorial != null && editorial!.isNotEmpty) Text(editorial!),
-              if (date != null && date!.isNotEmpty) Text(date!),
-              if (price != null) Text('$price €'),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(name),
+                  Text(date ?? '', textAlign: TextAlign.right),
+                ],
+              ),
+              Text(collection ?? ''),
+              Text(tome ?? ''),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(editorial ?? ''),
+                  Text(price ?? '$price €', textAlign: TextAlign.right),
+                ],
+              ),
             ],
           ),
         ),
