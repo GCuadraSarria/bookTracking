@@ -2,6 +2,8 @@ import 'package:book_tracking/data/mockup_data.dart';
 import 'package:book_tracking/widgets/my_book_tile.dart';
 import 'package:flutter/material.dart';
 
+import '../models/models.dart';
+
 class WishListPage extends StatefulWidget {
   const WishListPage({super.key});
 
@@ -10,10 +12,14 @@ class WishListPage extends StatefulWidget {
 }
 
 class _WishListPageState extends State<WishListPage> {
+  // Filter the list to only include books where owned is false
+  List<Publication> wishListBooks =
+      allPublicationsMockup.where((tile) => !tile.owned).toList();
+
   // checkbox was tapped
   void addShoppedBook(int index) {
     setState(() {
-      allPublicationsMockup[index].owned = true;
+      wishListBooks[index].owned = true;
     });
   }
 
@@ -27,11 +33,11 @@ class _WishListPageState extends State<WishListPage> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(16.0),
+      padding: const EdgeInsets.symmetric(vertical: 16.0),
       child: ListView.builder(
-        itemCount: allPublicationsMockup.length,
+        itemCount: wishListBooks.length,
         itemBuilder: ((context, index) {
-          var tile = allPublicationsMockup[index];
+          var tile = wishListBooks[index];
           return MyBookTile(
             name: tile.name,
             collection: tile.collection,

@@ -1,6 +1,10 @@
+import 'package:book_tracking/data/mockup_data.dart';
 import 'package:book_tracking/form/create_new_book.dart';
+import 'package:book_tracking/theme/my_theme.dart';
+import 'package:book_tracking/theme/my_theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:provider/provider.dart';
 import '../data/database.dart';
 import 'historical_page.dart';
 import 'wish_list_page.dart';
@@ -33,25 +37,41 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(actions: [
+        /// toggle to switch dark or light mode
+        IconButton(
+          onPressed: () {
+            Provider.of<MyThemeProvider>(context, listen: false).toggleTheme();
+          },
+          icon: Provider.of<MyThemeProvider>(context).themeData == lightMode
+              ? const Icon(Icons.sunny)
+              : const Icon(Icons.nightlight),
+        ),
+      ]),
       backgroundColor: Theme.of(context).colorScheme.background,
       body: Center(
           child: const [
         WishListPage(),
-        CreateNewBook()
-        // HistoricalPage(),
+        HistoricalPage(),
       ][_selectedIndex]),
+      floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const CreateNewBook()),
+            );
+          },
+          child: const Icon(Icons.add)),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Theme.of(context).colorScheme.primary,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.list),
             label: '',
-            backgroundColor: Colors.amber,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.two_k),
+            icon: Icon(Icons.history),
             label: '',
-            backgroundColor: Colors.amber,
           ),
         ],
         currentIndex: _selectedIndex,
