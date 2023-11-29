@@ -1,7 +1,6 @@
-import 'package:book_tracking/theme/my_theme_provider.dart';
+import 'package:book_tracking/theme/my_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:provider/provider.dart';
 import 'pages/my_home_page.dart';
 
 void main() async {
@@ -11,11 +10,7 @@ void main() async {
   // open a box
   var box = await Hive.openBox('mybox');
 
-  runApp(
-    ChangeNotifierProvider(
-        create: (BuildContext context) => MyThemeProvider(),
-        child: const MyApp()),
-  );
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -25,7 +20,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: Provider.of<MyThemeProvider>(context).themeData,
+      /// Custom theme
+      theme: darkMode,
+      darkTheme: darkMode,
       home: const SafeArea(child: MyHomePage()),
     );
   }

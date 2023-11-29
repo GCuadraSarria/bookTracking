@@ -1,11 +1,7 @@
 import 'package:book_tracking/pages/my_home_page.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
 import '../data/mockup_data.dart';
 import '../models/models.dart';
-import '../theme/my_theme.dart';
-import '../theme/my_theme_provider.dart';
 
 // Define a custom Form widget.
 class CreateNewBook extends StatefulWidget {
@@ -19,25 +15,25 @@ class CreateNewBook extends StatefulWidget {
 
 // This class holds data related to the form.
 class CreateNewBookState extends State<CreateNewBook> {
-  List<String> months = [
-    'Enero',
-    'Febrero',
-    'Marzo',
-    'Abril',
-    'Mayo',
-    'Junio',
-    'Julio',
-    'Agosto',
-    'Septiembre',
-    'Octubre',
-    'Noviembre',
-    'Diciembre',
-  ];
-  String? selectedMonth; // Default value
   bool isChecked = false;
 
   // Create an instance of the MyFormData class to store form data
-  Publication formData = Publication(name: '', owned: false);
+  Publication formData = Publication(
+    bookType: '',
+    name: '',
+    universe: '',
+    collection: '',
+    tome: 0,
+    editorial: '',
+    bindingType: '',
+    pages: 0,
+    buyDate: null,
+    releaseMonth: DateTime.now().month,
+    releaseYear: DateTime.now().year,
+    price: 0.00,
+    owned: false,
+    read: false,
+  );
 
   // Create a global key that uniquely identifies the Form widget
   // and allows validation of the form.
@@ -45,19 +41,12 @@ class CreateNewBookState extends State<CreateNewBook> {
 
   @override
   Widget build(BuildContext context) {
+    String? selectedBookType;
+    String? selectedUniverse;
+    String? selectedCollection;
+
     /// build a Form widget using the _formKey created above.
     return Scaffold(
-      appBar: AppBar(actions: [
-        /// toggle to switch dark or light mode
-        IconButton(
-          onPressed: () {
-            Provider.of<MyThemeProvider>(context, listen: false).toggleTheme();
-          },
-          icon: Provider.of<MyThemeProvider>(context).themeData == lightMode
-              ? const Icon(Icons.sunny)
-              : const Icon(Icons.nightlight),
-        ),
-      ]),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -65,161 +54,95 @@ class CreateNewBookState extends State<CreateNewBook> {
             key: _formKey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                /// add TextFormFields and ElevatedButton here.
-                const Text(
-                  'Información',
-                ),
+              children: [
+                // Textfield name
+                const Text('Información'),
                 const Divider(),
                 MyTextFormField(
-                  labelText: 'Libro',
-                  hintText: 'Nombre del libro o comic',
+                  labelText: 'Título',
                   validation: true,
-                  onChanged: (value) {
-                    formData.name = value;
-                  },
-                ),
-                MyTextFormField(
-                  labelText: 'Editorial',
-                  hintText: 'Nombre de la editorial',
-                  validation: false,
-                  onChanged: (value) {
-                    formData.editorial = value;
-                  },
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                      flex: 4,
-                      child: MyTextFormField(
-                        labelText: 'Colección',
-                        hintText: 'Nombre de la colección',
-                        validation: false,
-                        onChanged: (value) {
-                          formData.collection = value;
-                        },
-                      ),
-                    ),
-                    Expanded(
-                      flex: 1,
-                      child: MyTextFormField(
-                        labelText: 'Tomo',
-                        hintText: '1',
-                        validation: false,
-                        onChanged: (value) {
-                          formData.tome = value;
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Checkbox(
-                        value: isChecked,
-                        onChanged: (bool? value) {
-                          setState(() {
-                            isChecked = value!;
-                            formData.owned = value;
-                          });
-                        }),
-                    const Text('Lo tengo!'),
-                  ],
+                  onChanged: (value) => formData.name,
                 ),
 
-                /// dropdown menu when user unchecks the checkbox
-                !isChecked
-                    ? DropdownButtonFormField(
-                        validator: (value) {
-                          return value == null || value.isEmpty
-                              ? 'Seleccione un mes'
-                              : null;
-                        },
-                        hint: const Text('Mes'),
-                        value: selectedMonth,
-                        onChanged: (newValue) {
-                          setState(() {
-                            selectedMonth = newValue!;
-                            formData.date = newValue;
-                          });
-                        },
-                        items: months.map((String month) {
+                // Dropdown book type
+                DropdownButtonFormField(
+                  isDense: true,
+                  validator: (value) {
+                    return value == null
+                        ? 'Seleccione un tipo'
+                        : null;
+                  },
+                  hint: const Text('Tipo'),
+                  value: selectedBookType,
+                  onChanged: (newValue) {
+                    setState(() {
+                      selectedBookType = newValue!;
+                      formData.bookType = newValue;
+                    });
+                  },
+                  items: bookType.map((String booktype) {
+                    return DropdownMenuItem<String>(
+                      value: booktype,
+                      child: Text(booktype),
+                    );
+                  }).toList(),
+                ),
+
+                // Dropdown universe
+                DropdownButtonFormField(
+                  isDense: true,
+                  validator: (value) {
+                    return value == null
+                        ? 'Seleccione un universo'
+                        : null;
+                  },
+                  hint: const Text('Universo'),
+                  value: selectedUniverse,
+                  onChanged: (newValue) {
+                    setState(() {
+                      selectedUniverse = newValue;
+                      formData.universe = newValue!;
+                      print('NewValue: $newValue');
+                      print('Universo: $selectedUniverse');
+                      print('---------------');
+                     print('Colección: $selectedCollection');
+                      print('---------------');
+                      // reset collection dropdown
+                      // selectedCollection = null;
+                    });
+                  },
+                  items: universes.keys.map((String universe) {
+                    return DropdownMenuItem<String>(
+                      value: universe,
+                      child: Text(universe),
+                    );
+                  }).toList(),
+                ),
+
+                // Dropdown collection
+                DropdownButtonFormField(
+                  isDense: true,
+                  validator: (value) {
+                    return value == null
+                        ? 'Seleccione una colección'
+                        : null;
+                  },
+                  hint: const Text('Colección'),
+                  value: selectedCollection,
+                  onChanged: (newValue) {
+                    setState(() {
+                      selectedCollection = newValue! as String?;
+                      formData.collection = newValue as String?;
+                    });
+                  },
+                  items: selectedUniverse != null
+                      ? universes[selectedUniverse]?.map((String collection) {
                           return DropdownMenuItem<String>(
-                            value: month,
-                            child: Text(month),
+                            value: collection,
+                            child: Text(collection),
                           );
-                        }).toList(),
-                        decoration: InputDecoration(
-                          filled: true,
-                          fillColor: Theme.of(context).colorScheme.secondary,
-                          labelText: '¿Cuándo sale?',
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Theme.of(context).colorScheme.onSecondary,
-                            ),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Theme.of(context).colorScheme.onSecondary,
-                            ),
-                          ),
-                        ),
-                      )
-                    : Container(),
-
-                /// submit or cancel buttons
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const MyHomePage()),
-                        );
-                      },
-                      child: const Text('Cancelar'),
-                    ),
-                    ElevatedButton(
-                      onPressed: () {
-                        // validate returns true if the form is valid, or false otherwise.
-                        if (_formKey.currentState!.validate()) {
-                          allPublicationsMockup.add(
-                            // Add the new Publication to the list
-                            Publication(
-                              name: formData.name,
-                              collection: formData.collection,
-                              price: formData.price,
-                              editorial: formData.editorial,
-                              tome: formData.tome,
-                              owned: formData.owned,
-                              date: formData.date,
-                            ),
-                          );
-
-                          // Show success message
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('Creado con éxito'),
-                              duration: Duration(milliseconds: 500),
-                            ),
-                          );
-
-                          // Go back after 1 second to give time to read the snackbar
-                          Future.delayed(const Duration(milliseconds: 1250),
-                              () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const MyHomePage()),
-                            );
-                          });
-                        }
-                      },
-                      child: const Text('Crear'),
-                    ),
-                  ],
+                        }).toList()
+                      : [], // Show an empty list if no universe is selected
                 ),
               ],
             ),
@@ -233,14 +156,12 @@ class CreateNewBookState extends State<CreateNewBook> {
 /// Custom Form field with optional validation
 class MyTextFormField extends StatelessWidget {
   final String labelText;
-  final String hintText;
   final bool validation;
   final ValueChanged<String>? onChanged;
 
   const MyTextFormField({
     super.key,
     required this.labelText,
-    required this.hintText,
     required this.validation,
     this.onChanged,
   });
@@ -252,21 +173,13 @@ class MyTextFormField extends StatelessWidget {
       child: TextFormField(
         decoration: InputDecoration(
           filled: true,
-          fillColor: Theme.of(context).colorScheme.surface,
           labelText: labelText,
-          hintText: hintText,
-          hintStyle: TextStyle(
-            color: Theme.of(context).colorScheme.onSurface,
+          hintStyle: const TextStyle(),
+          enabledBorder: const OutlineInputBorder(
+            borderSide: BorderSide(),
           ),
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-              color: Theme.of(context).colorScheme.onSurface,
-            ),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-              color: Theme.of(context).colorScheme.onSurface,
-            ),
+          focusedBorder: const OutlineInputBorder(
+            borderSide: BorderSide(),
           ),
         ),
         onChanged: onChanged,
@@ -275,7 +188,7 @@ class MyTextFormField extends StatelessWidget {
         validator: validation
             ? (value) {
                 return value == null || value.isEmpty
-                    ? 'Rellene el campo'
+                    ? 'Campo obligatorio'
                     : null;
               }
             : null,

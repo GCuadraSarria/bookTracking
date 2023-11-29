@@ -2,21 +2,20 @@ import '../models/models.dart';
 
 List<Publication> allPublicationsMockup = [
   Publication(
-    name: 'Miguel Aladrén Castillo',
-    collection: 'Star Wars',
-    price: '24.50',
-    editorial: 'Altaya',
-    tome: '2',
-    date: 'Diciembre',
+    bookType: 'Libro',
+    name: 'Convergencia',
+    universe: 'Star Wars',
+    collection: 'The High Republic',
+    tome: 0,
+    editorial: 'Planeta libros',
+    bindingType: 'Dura',
+    pages: 200,
+    buyDate: DateTime.now(),
+    releaseMonth: DateTime.now().month,
+    releaseYear: DateTime.now().year,
+    price: 22.00,
     owned: false,
-  ),
-  Publication(
-    name: 'Es un niño bonito',
-    collection: 'Titanes sensuales',
-    price: '19.75',
-    editorial: 'Salvat',
-    tome: '1',
-    owned: true,
+    read: false,
   ),
 ];
 
@@ -34,6 +33,7 @@ List<Publication> allPublicationsMockup = [
 // Cronología dentro de la historia del universo (incluso diferentes colecciones)
 // Precio
 // Lo tengo? 
+// Leído?
 
 
 // Slide para comprar o editar con confirmación
@@ -72,3 +72,4 @@ List<Publication> allPublicationsMockup = [
 // Noviembre 2023
 // 22 €
 // Lo tengo / no lo tengo
+// No lo he leido (Solo en listas)

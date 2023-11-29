@@ -26,7 +26,6 @@ class _HistoricalPageState extends State<HistoricalPage> {
   // checkbox was tapped
   void openBookSettings(int index) {
     setState(() {
-      print('Settings of ${allPublicationsMockup[index].name}');
     });
   }
 
@@ -42,12 +41,13 @@ class _HistoricalPageState extends State<HistoricalPage> {
             name: tile.name,
             collection: tile.collection,
             editorial: tile.editorial,
-            tome: tile.tome,
-            date: tile.date,
-            price: tile.price,
+            tome: tile.tome.toString(),
+            date: tile.buyDate.toString(),
+            price: tile.price.toString(),
             owned: tile.owned,
             settingsTapped: (context) => openBookSettings(index),
             shoppedTapped: (context) => addShoppedBook(index),
+            index: index,
           );
         }),
       ),

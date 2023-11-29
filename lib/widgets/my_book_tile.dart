@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../data/mockup_data.dart';
+import '../models/models.dart';
+
 class MyBookTile extends StatelessWidget {
   final String name;
   final String? collection;
@@ -8,6 +11,7 @@ class MyBookTile extends StatelessWidget {
   final String? date;
   final String? price;
   final bool owned;
+  final int index;
   final Function(BuildContext?)? settingsTapped;
   final Function(BuildContext?)? shoppedTapped;
   const MyBookTile({
@@ -21,10 +25,15 @@ class MyBookTile extends StatelessWidget {
     required this.owned,
     this.settingsTapped,
     this.shoppedTapped,
+    required this.index,
   });
 
   @override
   Widget build(BuildContext context) {
+    // Filter the list to only include books where owned is false
+    List<Publication> wishListBooks =
+        allPublicationsMockup.where((tile) => !tile.owned).toList();
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4.0),
       child: Dismissible(
@@ -52,6 +61,7 @@ class MyBookTile extends StatelessWidget {
             // Swiped from right to left (edit)
             print('Edited');
           } else if (direction == DismissDirection.startToEnd) {
+            wishListBooks[index].owned = true;
             // Swiped from left to right (buy)
             print('Bought');
           }
@@ -74,7 +84,9 @@ class MyBookTile extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(editorial ?? ''),
-                  Text(price ?? '$price €', textAlign: TextAlign.right),
+                  price != null
+                      ? Text('$price €', textAlign: TextAlign.right)
+                      : const Text('No price'),
                 ],
               ),
             ],
