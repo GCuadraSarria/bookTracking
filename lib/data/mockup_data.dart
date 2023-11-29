@@ -28,11 +28,16 @@ List<Publication> allPublicationsMockup = [
 // Tomo en la colección (I, II, III...)
 // Editorial
 // Encuadernación - Tapa dura / blanda
+// Número de páginas
 // Fecha de compra
 // Fecha de lanzamiento
 // Cronología dentro de la historia del universo (incluso diferentes colecciones)
 // Precio
 // Lo tengo? 
+
+
+// Slide para comprar o editar con confirmación
+
 
 // -----------------------
 // Historico:
@@ -62,6 +67,7 @@ List<Publication> allPublicationsMockup = [
 // (Tomo automáticamente en base al anterior)
 // Planeta libros
 // Tapa dura
+// 200 páginas
 // 02 Diciembre 2023
 // Noviembre 2023
 // 22 €
