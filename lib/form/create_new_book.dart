@@ -35,16 +35,16 @@ class CreateNewBookState extends State<CreateNewBook> {
     read: false,
   );
 
+  String? selectedBookType;
+  String? selectedUniverse;
+  String? selectedCollection;
+
   // Create a global key that uniquely identifies the Form widget
   // and allows validation of the form.
   final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
-    String? selectedBookType;
-    String? selectedUniverse;
-    String? selectedCollection;
-
     /// build a Form widget using the _formKey created above.
     return Scaffold(
       body: SafeArea(
@@ -68,9 +68,7 @@ class CreateNewBookState extends State<CreateNewBook> {
                 DropdownButtonFormField(
                   isDense: true,
                   validator: (value) {
-                    return value == null
-                        ? 'Seleccione un tipo'
-                        : null;
+                    return value == null ? 'Seleccione un tipo' : null;
                   },
                   hint: const Text('Tipo'),
                   value: selectedBookType,
@@ -92,9 +90,7 @@ class CreateNewBookState extends State<CreateNewBook> {
                 DropdownButtonFormField(
                   isDense: true,
                   validator: (value) {
-                    return value == null
-                        ? 'Seleccione un universo'
-                        : null;
+                    return value == null ? 'Seleccione un universo' : null;
                   },
                   hint: const Text('Universo'),
                   value: selectedUniverse,
@@ -105,7 +101,7 @@ class CreateNewBookState extends State<CreateNewBook> {
                       print('NewValue: $newValue');
                       print('Universo: $selectedUniverse');
                       print('---------------');
-                     print('Colección: $selectedCollection');
+                      print('Colección: $selectedCollection');
                       print('---------------');
                       // reset collection dropdown
                       // selectedCollection = null;
@@ -123,9 +119,7 @@ class CreateNewBookState extends State<CreateNewBook> {
                 DropdownButtonFormField(
                   isDense: true,
                   validator: (value) {
-                    return value == null
-                        ? 'Seleccione una colección'
-                        : null;
+                    return value == null ? 'Seleccione una colección' : null;
                   },
                   hint: const Text('Colección'),
                   value: selectedCollection,
