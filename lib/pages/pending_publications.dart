@@ -78,7 +78,7 @@ class UniverseExpansionTileState extends State<UniverseExpansionTile> {
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(vertical: 4.0),
+          padding: _isExpanded ? EdgeInsets.zero : const EdgeInsets.only(bottom: 8.0),
           child: ListTile(
             tileColor: _isExpanded
                 ? const Color.fromRGBO(255, 192, 203, 0.2)
@@ -98,7 +98,7 @@ class UniverseExpansionTileState extends State<UniverseExpansionTile> {
           Column(
             children: [
               for (var subItem in widget.subItems)
-                CharacterExpansionTile(
+                CollectionExpansionTile(
                   title: subItem,
                   subItems: widget.nestedLibrary[subItem]?.keys.toList() ?? [],
                   nestedLibrary: widget.nestedLibrary[subItem] ?? {},
@@ -110,12 +110,12 @@ class UniverseExpansionTileState extends State<UniverseExpansionTile> {
   }
 }
 
-class CharacterExpansionTile extends StatefulWidget {
+class CollectionExpansionTile extends StatefulWidget {
   final String title;
   final List<String> subItems;
   final Map<String, dynamic> nestedLibrary;
 
-  const CharacterExpansionTile({
+  const CollectionExpansionTile({
     super.key,
     required this.title,
     required this.subItems,
@@ -123,10 +123,10 @@ class CharacterExpansionTile extends StatefulWidget {
   });
 
   @override
-  CharacterExpansionTileState createState() => CharacterExpansionTileState();
+  CollectionExpansionTileState createState() => CollectionExpansionTileState();
 }
 
-class CharacterExpansionTileState extends State<CharacterExpansionTile> {
+class CollectionExpansionTileState extends State<CollectionExpansionTile> {
   bool _isExpanded = false;
 
   @override
@@ -134,7 +134,7 @@ class CharacterExpansionTileState extends State<CharacterExpansionTile> {
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(vertical: 2.0),
+          padding: _isExpanded ? EdgeInsets.zero : const EdgeInsets.only(bottom: 8.0),
           child: ListTile(
             tileColor: _isExpanded
                 ? const Color.fromRGBO(255, 192, 203, 0.3)

@@ -39,6 +39,8 @@ class NewPublicationFormState extends State<NewPublicationForm> {
               const SizedBox(height: 16.0),
               const UniverseDropdownMenuRow(),
               const SizedBox(height: 16.0),
+              const CollectionDropdownMenuRow(),
+              const SizedBox(height: 32.0),
               MySubmitButton(formKey: _formKey),
             ],
           ),
@@ -103,9 +105,9 @@ class MyTextField extends StatelessWidget {
         labelStyle: TextStyle(color: Colors.pink[300]),
         filled: true,
         fillColor: Colors.grey[850],
-        border: OutlineInputBorder(
+        border: const OutlineInputBorder(
           borderSide: BorderSide.none,
-          borderRadius: BorderRadius.circular(10),
+          
         ),
       ),
       // The validator receives the text that the user has entered.
@@ -163,14 +165,15 @@ class _UniverseDropdownMenuRowState extends State<UniverseDropdownMenuRow> {
       children: [
         Expanded(
           child: DropdownMenu(
+            expandedInsets: EdgeInsets.zero,
             inputDecorationTheme: InputDecorationTheme(
               suffixIconColor: Colors.pink[300],
               labelStyle: TextStyle(color: Colors.pink[300]),
               filled: true,
               fillColor: Colors.grey[850],
-              border: OutlineInputBorder(
+              border: const OutlineInputBorder(
                 borderSide: BorderSide.none,
-                borderRadius: BorderRadius.circular(10),
+                
               ),
             ),
             controller: universeController,
@@ -187,6 +190,90 @@ class _UniverseDropdownMenuRowState extends State<UniverseDropdownMenuRow> {
             }).toList(),
           ),
         ),
+        const SizedBox(width: 16.0),
+        IconButton.filled(
+          onPressed: () {},
+          icon: const Icon(Icons.add),
+          style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all(Colors.pink[200]),
+            iconColor: MaterialStateProperty.all(Colors.grey[850]),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class CollectionDropdownMenuRow extends StatefulWidget {
+  const CollectionDropdownMenuRow({super.key});
+
+  @override
+  State<CollectionDropdownMenuRow> createState() =>
+      _CollectionDropdownMenuRowState();
+}
+
+class _CollectionDropdownMenuRowState extends State<CollectionDropdownMenuRow> {
+  TextEditingController collectionController = TextEditingController();
+  final Map<String, Map<String, Map<String, Map<String, dynamic>>>> library = {
+    'Star Wars': {
+      'Darth Vader': {
+        'book1': {'pages': 300, 'price': 34.50},
+        'book2': {'pages': 40, 'price': 14.50},
+        'book3': {'pages': 620, 'price': 50.75},
+      },
+      'The Jedi Ascension': {
+        'book4': {'pages': 300, 'price': 34.50},
+        'book5': {'pages': 40, 'price': 14.50},
+        'book6': {'pages': 620, 'price': 50.75},
+      },
+    },
+    'Lord of the Rings': {
+      'Frodet': {
+        'book1': {'pages': 300, 'price': 34.50},
+        'book2': {'pages': 40, 'price': 14.50},
+        'book3': {'pages': 620, 'price': 50.75},
+      },
+      'Samuelet': {
+        'book4': {'pages': 300, 'price': 34.50},
+        'book5': {'pages': 40, 'price': 14.50},
+        'book6': {'pages': 620, 'price': 50.75},
+      },
+    },
+    'Star Trek': {},
+  };
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Expanded(
+          child: DropdownMenu(
+            expandedInsets: EdgeInsets.zero,
+            inputDecorationTheme: InputDecorationTheme(
+              suffixIconColor: Colors.pink[300],
+              labelStyle: TextStyle(color: Colors.pink[300]),
+              filled: true,
+              fillColor: Colors.grey[850],
+              border: const OutlineInputBorder(
+                borderSide: BorderSide.none,
+                
+              ),
+            ),
+            controller: collectionController,
+            label: const Text('Seleccione colección'),
+            onSelected: (collection) {
+              setState(() {});
+            },
+            dropdownMenuEntries:
+                library.keys.map<DropdownMenuEntry<String>>((String collection) {
+              return DropdownMenuEntry<String>(
+                value: collection,
+                label: collection,
+              );
+            }).toList(),
+          ),
+        ),
+        const SizedBox(width: 16.0),
         IconButton.filled(
           onPressed: () {},
           icon: const Icon(Icons.add),
