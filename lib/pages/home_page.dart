@@ -42,7 +42,7 @@ class HomePage extends StatelessWidget {
             ? AnimatedNotchBottomBar(
                 /// Provide NotchBottomBarController
                 notchBottomBarController: _controller,
-                color: Colors.grey[900]!,
+                color: Colors.grey[850]!,
                 showLabel: false,
                 notchColor: Colors.grey[850]!,
 
@@ -59,7 +59,6 @@ class HomePage extends StatelessWidget {
                 ],
                 onTap: (index) {
                   /// perform action on tab change and to update pages you can update pages without pages
-                  print('current selected index $index');
                   _pageController.jumpToPage(index);
                 },
               )

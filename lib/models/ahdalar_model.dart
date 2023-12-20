@@ -28,3 +28,22 @@
 //   bool isOwned;
 //   bool isRead;
 // }
+
+
+/* 
+Formulario:
+
+bookType      -
+name          -
+universe      -
+collection    -
+tome          -
+editorial     -
+bindingType   -
+pages         -
+releaseMonth  
+releaseYear   
+price         
+owned         
+read          
+*/
