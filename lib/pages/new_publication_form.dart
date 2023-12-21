@@ -66,8 +66,8 @@ class NewPublicationFormState extends State<NewPublicationForm> {
               const SizedBox(height: 16.0),
               MyTextField(
                   label: 'Páginas', numeric: true, controller: pagesController),
-              MySubmitButton(formKey: _formKey),
               const SizedBox(height: 32.0),
+              MySubmitButton(formKey: _formKey),
             ],
           ),
         ),
